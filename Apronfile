@@ -12,4 +12,4 @@ pipeline:
   test:
     suites:
       - name: fake
-        command: echo 1
+        command: echo 0
