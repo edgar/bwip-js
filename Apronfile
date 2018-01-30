@@ -1,0 +1,15 @@
+version: '5'
+slack_channel: '#wms-platform'
+business_unit: wms
+services:
+  - name: web
+    command: node server.js
+    container_port: 3030
+    use_dynamic_resources: true
+    health_check:
+      protocol: HTTP
+pipeline:
+  test:
+    suites:
+      - name: fake
+        command: echo 1
