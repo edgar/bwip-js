@@ -4,7 +4,7 @@ business_unit: wms
 services:
   - name: web
     command: node server.js
-    container_port: 3030
+    container_port: 80
     use_dynamic_resources: true
     health_check:
       protocol: HTTP

@@ -16,8 +16,7 @@ var bwipjs = require('./node-bwipjs');  // ./ required for local use
 bwipjs.loadFont('Inconsolata', 108,
       require('fs').readFileSync('fonts/Inconsolata.otf', 'binary'));
 
-var port = (process.env.PORT || 3030);
-
+var port = (process.env.PORT || 80);
 
 console.log('listening on ' + port);
 
@@ -44,6 +43,5 @@ http.createServer(function(req, res) {
     // Do not allow images to grow too large (1 mega-pixel limit)
     bwipjs(req, res, { sizelimit:1024*1024 });
   }
-
 }).listen(port);
 
