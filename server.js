@@ -24,8 +24,14 @@ console.log('listening on ' + port);
 http.createServer(function(req, res) {
   // health check
   if (req.url.indexOf('/health') === 0) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.writeHead(304, {'Content-Type': 'text/plain'});
     res.write('default: PASSED Application is running');
+    return res.end();
+  }
+
+  if (req.url.indexOf('/version') === 0) {
+    res.writeHead(304, {'Content-Type': 'text/plain'});
+    res.write(process.env.GIT_COMMIT || 'nope');
     return res.end();
   }
 
