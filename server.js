@@ -21,6 +21,8 @@ var port = (process.env.PORT || 80);
 console.log('listening on ' + port);
 
 http.createServer(function(req, res) {
+  console.log(req.url);
+
   // health check
   if (req.url.indexOf('/health') === 0) {
     res.writeHead(200, {'Content-Type': 'text/plain'});
