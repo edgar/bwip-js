@@ -22,14 +22,15 @@ var port = (process.env.PORT || 3030);
 console.log('listening on ' + port);
 
 http.createServer(function(req, res) {
-  // If the url does not begin /?bcid= then 404.  Otherwise, we end up
-  // returning 400 on requests like favicon.ico.
+  // health check
   if (req.url.indexOf('/health') === 0) {
     res.writeHead(200, {'Content-Type': 'text/plain'});
     res.write('default: PASSED Application is running');
     return res.end();
   }
 
+  // If the url does not begin /?bcid= then 404.  Otherwise, we end up
+  // returning 400 on requests like favicon.ico.
   if (req.url.indexOf('/?bcid=') !== 0) {
     res.writeHead(404, { 'Content-Type':'text/plain' });
     res.end('BWIP-JS: Unknown request format.', 'utf8');
