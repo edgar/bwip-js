@@ -16,7 +16,7 @@ var bwipjs = require('./node-bwipjs');	// ./ required for local use
 bwipjs.loadFont('Inconsolata', 108,
 			require('fs').readFileSync('fonts/Inconsolata.otf', 'binary'));
 
-var port = (process.env.PORT || 3030)
+var port = (process.env.PORT || 3030);
 
 
 console.log('listening on ' + port);
