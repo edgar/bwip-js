@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "bwip-js.fullname" . }}-test-connection"
+  labels:
+{{ include "bwip-js.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['{{ include "bwip-js.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

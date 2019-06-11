@@ -1,0 +1,4 @@
+dependencies:
+  - name: ba-common
+    version: "~0.0.5"
+    repository: "@ba-common"
