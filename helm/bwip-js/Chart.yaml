@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+name: bwip-js
+description: |
+  A pull request description validator
+# Do NOT set the version manually. Jenkins will do this for you for each build.
+version: 0.0.1
+maintainers:
+  - name: blueapron/fulfillment
+    email: fulfillment@blueapron.com
+keywords:
+  - bwip-js
+  - blueapron
+home: https://blueapron.com/
+sources:
+  - https://github.com/blueapron/bwip-js
+icon: https://blueapron.com/favicon.ico
+tillerVersion: ">=2.12"

@@ -1,0 +1,88 @@
+---
+#
+# This file contains default values for the Helm Chart
+#
+# Add here any values that are required by templates.
+# If you miss some of them, you will see an error after
+#  `helm lint charts/yourproject`
+# command execution, like this one:
+#
+# [ERROR] templates/: render error in "project-demo/templates/secret.yaml":
+# template: project-demo/templates/secret.yaml:14:48: executing "project-demo/templates/secret.yaml" at <b64enc>
+#
+
+ciLabels:
+  buildNumber: "1"
+  user: "chart-test"
+  branch: "pseudo-branch"
+  deployBuildNumber: "24"
+  deployUser: "chart-test"
+  appVersion: "0.0.1-test"
+
+DNS:
+  cloud:
+    private: test.k8s.private.local
+    public: test.k8s.public.local
+  serviceMesh: test.service.mesh.local
+
+env: "test"
+environment: "testing"
+
+# Add more environment values. Use _default for applications that don't have separate key.
+# _default won't be joined with any others.
+extraEnvVars:
+  _default:
+    A: B
+    EXTRA: VALUE
+
+image:
+  registry: test.docker.registry.local
+  registrySecret: test.docker.registry.local
+  tag: 0.0.1.test
+
+ingresses:
+  alb: true
+
+ingress:
+  _default:
+    annotations:
+      kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/scheme: internal
+      external-dns.alpha.kubernetes.io/aws-zone-type: private
+      alb.ingress.kubernetes.io/tags: Environment={{ .Values.environment }},App={{ .Values.fullnameOverride }}
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+      alb.ingress.kubernetes.io/certificate-arn: >-
+              {{.Values.ssl.alb.cert}}
+      alb.ingress.kubernetes.io/target-type: ip # "instance" || "ip"
+      alb.ingress.kubernetes.io/actions.ssl-redirect: |-
+        {"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}
+      alb.ingress.kubernetes.io/healthcheck-port: http
+      alb.ingress.kubernetes.io/healthcheck-path: /
+      alb.ingress.kubernetes.io/success-codes: 200-301
+    rules: |
+      #
+      # WARNING! All hosts will be created automatically in Route53
+      # in appropriate DNS Zone (for "alb" Ingresses only)
+      #
+      - host: bwip-js.{{ .Values.DNS.cloud.private }}
+        http:
+          paths:
+            - path: /*
+              backend:
+                serviceName: ssl-redirect
+                servicePort: use-annotation
+            - path: /*
+              backend:
+                serviceName: {{ .Values.fullnameOverride }}
+                servicePort: http
+
+replicas:
+  _default: 2
+
+resources:
+  _default:
+    limits:
+      memory: 1Gi
+    requests:
+      cpu: 300m
+      memory: 1Gi

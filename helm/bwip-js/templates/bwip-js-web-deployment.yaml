@@ -1,0 +1,19 @@
+{{- $_ := set .Values "fullnameOverride" "bwip-js-web" -}}
+{{- include "common.deployment" (list . "common.deployment.default-1") -}}
+{{- define "bwip-js-web.deployment.container-1" -}}
+## Define overrides for your Container here
+command:
+  - /bin/bash
+  - -c
+  - node server.js
+livenessProbe:
+  httpGet:
+    path: /health
+    port: {{ index .Values "ports" .Values.fullnameOverride "http" "containerPort" }}
+    scheme: HTTP
+readinessProbe:
+  httpGet:
+    path: /health
+    port: {{ index .Values "ports" .Values.fullnameOverride "http" "containerPort" }}
+    scheme: HTTP
+{{- end -}}
