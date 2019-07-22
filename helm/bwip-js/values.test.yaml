@@ -23,7 +23,6 @@ DNS:
   cloud:
     private: test.k8s.private.local
     public: test.k8s.public.local
-  serviceMesh: test.service.mesh.local
 
 env: "test"
 environment: "testing"
