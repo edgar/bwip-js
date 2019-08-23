@@ -1,4 +1,4 @@
 {{- if .Values.ingresses.alb -}}
-{{- $_ := set .Values "fullnameOverride" "bwip-js-web" -}}
+{{- $_ := set .Values "fullnameOverride" "bwip-js" -}}
 {{- template "common.ingress" (list . "common.ingress.default") -}}
 {{- end -}}

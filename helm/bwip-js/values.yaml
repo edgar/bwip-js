@@ -45,7 +45,6 @@ DNS:
   cloud:
     private: k8s.private.local
     public: k8s.public.local
-  serviceMesh: service.mesh.local
 
 enableNodeSelector: false
 
@@ -69,7 +68,7 @@ extraEnvVars: {}
 
 image:
 # Do NOT set the image hash or tag manually. CI will do this for you.
-  name: blueapron/bwip-js
+  name: blueapron/{{ .Chart.Name }}
   registry: ~
   registrySecret: ~
   tag: ~
