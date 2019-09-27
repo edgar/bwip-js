@@ -79,6 +79,7 @@
         script {
           if (params.BA_PUSH_IMAGES) {
             pushDockerImage image
+            pushChart chart
           }
         }
       }
