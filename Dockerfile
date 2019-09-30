@@ -1,4 +1,4 @@
-FROM blueapron/node:6.10.3-static
+FROM blueapron/node:6-static
 
 MAINTAINER O&L Inventory <ol-inventory@blueapron.com>
 
