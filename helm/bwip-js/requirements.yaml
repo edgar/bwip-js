@@ -1,0 +1,7 @@
+dependencies:
+  - name: ba-common
+    version: "~0.0.5"
+    repository: "@ba-common"
+# Initially the repo is located on github. Maybe sometime later it will be moved to a cloud charts registry.
+# helm repo add ba-common \
+#  "https://${HELM_GITHUB_API_TOKEN}@raw.githubusercontent.com/blueapron/helm-common-chart/master/docs/"

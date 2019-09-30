@@ -1,0 +1,2 @@
+{{- $_ := set .Values "fullnameOverride" "bwip-js-web" -}}
+{{- template "common.service" (list . "common.service.default") -}}

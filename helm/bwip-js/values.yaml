@@ -1,0 +1,141 @@
+---
+#
+# This file contains default values for the Helm Chart
+#
+# Add here any values that are required by templates.
+# If you miss some of them, you will see an error after
+#  `helm lint charts/yourproject`
+# command execution, like this one:
+#
+# [ERROR] templates/: render error in "project-demo/templates/secret.yaml":
+# template: project-demo/templates/secret.yaml:14:48: executing "project-demo/templates/secret.yaml" at <b64enc>
+#
+
+activeDeadlineSeconds:
+  _default: 3600
+
+backoffLimit:
+  _default: 0 # 0 means no retries for jobs
+
+# CI will fill these values during the Chart build
+ciLabels: {}
+#  buildNumber: "none"
+#  user: "none"
+#  branch: "none"
+#  deployBuildNumber: "none"
+#  deployUser: "none"
+#  appVersion: "0.0.1"
+
+container:
+  _default:
+    livenessProbe:
+      failureThreshold: 3
+      initialDelaySeconds: 60
+      periodSeconds: 20
+      successThreshold: 1
+      timeoutSeconds: 20
+    readinessProbe:
+      failureThreshold: 3
+      initialDelaySeconds: 5
+      periodSeconds: 20
+      successThreshold: 1
+      timeoutSeconds: 20
+
+DNS:
+  cloud:
+    private: k8s.private.local
+    public: k8s.public.local
+
+enableNodeSelector: false
+
+env: loc
+
+# Override the ConfigMap name with the set of environment variables for the app
+envVarsConfigmap: ~
+
+# Override the Secret name with the set of environment variables for the app
+envVarsSecret: ~
+
+environment: local
+
+# Add more environment values. Use _default for applications that don't have separate key.
+# _default won't be joined with any others.
+extraEnvVars: {}
+#  _default:
+#    A: B
+#  custom-app:
+#    C: "D"
+
+image:
+# Do NOT set the image hash or tag manually. CI will do this for you.
+  name: blueapron/{{ .Chart.Name }}
+  registry: ~
+  registrySecret: ~
+  tag: ~
+
+ingresses:
+  alb: false
+
+minReadySeconds:
+  _default: 5
+#  custom-app: 5
+
+# ports for pods > { app-name > { port-name > {values...}, ... }, ... }
+ports:
+  #  _default: {}
+  bwip-js-web:
+    http:
+      containerPort: 80
+      protocol: TCP
+
+progressDeadlineSeconds:
+  _default: 600
+#  custom-app: 600
+
+replicas:
+  _default: 1
+
+resources:
+  _default: {}
+# You can set resources as in example:
+#  your-app:
+#    requests:
+#      memory: 2Gi
+#    limits:
+#      memory: 2Gi
+
+revisionHistoryLimit:
+  _default: 2
+#  custom-app: 2
+
+service:
+  _default:
+#    annotations:
+#      # annotation example for Traefik Ingress from legacy K8s cluster
+#      traefik.backend.circuitbreaker: NetworkErrorRatio() > 0.5
+    ports:
+      http: # port name
+        port: 80
+    type: ClusterIP
+
+ssl:
+  alb:
+    cert: 'arn:aws:acm:us-east-1:*******:certificate/12345'
+
+strategy:
+  # The default strategy "maxSurge: 1" + "maxUnavailable: 0" is designed to replace pods one by one
+  # A new pod will start first and when it's ready the old one will be
+  # removed.
+  # This strategy can be bad for pods that must not start in parallel. For those pods
+  # you may need to setup alternative settings, for example:
+  # "maxSurge: 0" + "maxUnavailable: 1", so the old pod will be deleted first
+  # and only after a new one will be started.
+  _default:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+#   custom-app: {}
+
+ttlSecondsAfterFinished:
+  _default: 43200
