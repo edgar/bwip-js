@@ -5,6 +5,7 @@
   environment {
     APP_NAME = 'bwip-js'
     NAMESPACE = 'wms'
+    AWS = credentials('aws-instance-role')
   }
 
    options {
